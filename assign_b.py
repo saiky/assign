@@ -32,14 +32,14 @@ class ProcessorTask:
         if args.b is not None:
             self.b = args.b
 
-    def coprime2(self, a, b):
+    def is_coprime(self, a, b):
         return bltin_gcd(a, b) == 1
 
     def getCombinations(self, seq):
         combinations = list()
         for i in range(0,len(seq)):
             for j in range(i+1,len(seq)):
-                if self.coprime2(seq[i],seq[j]):
+                if self.is_coprime(seq[i],seq[j]):
                     combinations.append([seq[i],seq[j]])
                     combinations.append([seq[j],seq[i]])
         return combinations

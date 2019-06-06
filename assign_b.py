@@ -13,7 +13,7 @@ example: python assign_b.py 2 3
 """
 import os
 import argparse
-
+from math import gcd as bltin_gcd
 
 class ProcessorTask:
     
@@ -24,51 +24,33 @@ class ProcessorTask:
     def get_args(self):
         ## get from date arument if exists else current date
         parser = argparse.ArgumentParser()
-        parser.add_argument("a", help="enter total students i.e 2",type=int)
-        parser.add_argument("b", help="enter students group i.e 3",type=int)
+        parser.add_argument("a", help="Length of the runway i.e 2",type=int)
+        parser.add_argument("b", help="Number of different runways available i.e 3",type=int)
         args = parser.parse_args()
         if args.a is not None:
             self.a = args.a
         if args.b is not None:
             self.b = args.b
 
+    def coprime2(self, a, b):
+        return bltin_gcd(a, b) == 1
 
-    def gcd(self, a, b): 
-      
-        if (a == 0 or b == 0): 
-            False
-
-        # base case 
-        if (a == b): 
-            return a 
-
-        if (a > b):
-            return self.gcd(a-b, b)
-
-        return self.gcd(a, b-a)
-
-
-    def coprime(self, a, b) : 
-        return (self.gcd(a, b) == 1)
-
-    def numOfPairs(self, arr, n) : 
-        count = 0
-      
-        for i in range(0, n-1) : 
-            for j in range(i+1, n) : 
-      
-                if (self.coprime(arr[i], arr[j])) : 
-                    count = count + 1
-      
-        return count
+    def getCombinations(self, seq):
+        combinations = list()
+        for i in range(0,len(seq)):
+            for j in range(i+1,len(seq)):
+                if self.coprime2(seq[i],seq[j]):
+                    combinations.append([seq[i],seq[j]])
+                    combinations.append([seq[j],seq[i]])
+        return combinations
 
     def output_runways(self):
         i = 1
         arr = []
-        while i <= self.a:
+        while i <= self.b:
             arr.append(i)
             i += 1
-        self.numOfPairs(arr,self.b)            
+        return len(self.getCombinations(arr))+1
 
 if __name__ == "__main__":
     ProcessorTask = ProcessorTask()
